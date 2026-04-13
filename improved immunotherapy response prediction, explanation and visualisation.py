@@ -7,9 +7,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-# -------------------------------
 # 1. LOAD DATA
-# -------------------------------
+
 import zipfile
 import pandas as pd
 
@@ -19,7 +18,7 @@ extract_path = r"C:\Users\USER\OneDrive\Desktop\expression_data"
 with zipfile.ZipFile(zip_path, "r") as zip_ref:
     zip_ref.extractall(extract_path)
 
-# ab extracted file load karo (name adjust karna padega)
+
 expr = pd.read_csv(extract_path + r"\expression.csv", index_col=0)
 
 #meta data loading 
@@ -28,24 +27,19 @@ meta_path = r"C:\Users\USER\OneDrive\Desktop\metadata.txt"
 
 meta = pd.read_csv(meta_path, sep="\t")
 
-# -------------------------------
-# 2. CLEAN + FORMAT
-# -------------------------------
 
-# Transpose expression (samples x genes)
+# 2. CLEAN + FORMAT
+
 expr = expr.T
 
-# Make sure sample names match
 expr.index = expr.index.str.strip()
 meta["sample"] = meta["sample"].str.strip()
 
 # Merge expression with metadata
 df = expr.merge(meta, left_index=True, right_on="sample")
 
-# -------------------------------
-# 3. LABEL CREATION
-# -------------------------------
 
+# 3. LABEL CREATION
 # Convert response into 0/1
 # Change column name depending on your metadata
 
@@ -57,9 +51,7 @@ df["response"] = df["response"].map({
 # Drop unnecessary columns
 df = df.dropna(subset=["response"])
 
-# -------------------------------
 # 4. PREPROCESSING
-# -------------------------------
 
 X = df.drop(["sample", "response"], axis=1)
 y = df["response"]
@@ -67,33 +59,28 @@ y = df["response"]
 # Keep numeric only
 X = X.select_dtypes(include=[np.number])
 
-# -------------------------------
+
 # 5. TRAIN TEST SPLIT
-# -------------------------------
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
-# -------------------------------
 # 6. MODEL TRAINING
-# -------------------------------
+
 
 model = RandomForestClassifier(n_estimators=100)
 model.fit(X_train, y_train)
 
-# -------------------------------
 # 7. EVALUATION
-# -------------------------------
 
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 
 print(f"\nModel Accuracy: {accuracy:.2f}")
 
-# -------------------------------
+
 # 8. FEATURE IMPORTANCE
-# -------------------------------
 
 importances = model.feature_importances_
 genes = X.columns
@@ -104,10 +91,8 @@ feat_df = pd.DataFrame({
 }).sort_values(by="importance", ascending=False)
 
 top10 = feat_df.head(10)
-
-# -------------------------------
 # 9. TOP GENES PLOT
-# -------------------------------
+
 
 plt.figure()
 plt.barh(top10["gene"], top10["importance"])
@@ -115,9 +100,7 @@ plt.title("Top 10 Important Genes")
 plt.gca().invert_yaxis()
 plt.show()
 
-# -------------------------------
 # 10. HEATMAP
-# -------------------------------
 
 top_genes = top10["gene"].values
 
@@ -128,18 +111,14 @@ sns.heatmap(heatmap_data, cmap="coolwarm")
 plt.title("Heatmap of Top Genes")
 plt.show()
 
-# -------------------------------
 # 11. CORRELATION MATRIX
-# -------------------------------
 
 plt.figure()
 sns.heatmap(X[top_genes].corr(), annot=True)
 plt.title("Gene Correlation Matrix")
 plt.show()
 
-# -------------------------------
 # 12. SAMPLE PREDICTION + EXPLANATION
-# -------------------------------
 
 sample = X_test.iloc[0]
 
@@ -181,9 +160,7 @@ for gene in top10["gene"][:5]:
 
     print(f"- {gene} {direction} ({meaning})")
 
-# -------------------------------
 # 13. FINAL EXPLANATION
-# -------------------------------
 
 print("\n🧠 Explanation:")
 
