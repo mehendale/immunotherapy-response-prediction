@@ -7,11 +7,11 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 from imblearn.over_sampling import SMOTE
 
-# --- 1. DATA LOADING (Cleaning logic) ---
+# 1. DATA LOADING  
 expr_path = r"C:\Users\USER\OneDrive\Desktop\expressions.gz"
 meta_path = r"C:\Users\USER\OneDrive\Desktop\metadata.txt"
 
-# Professional Gene Map
+# Gene Map
 gene_map = {
     '84059': 'CXCL13', '815': 'SERPINB9', '55320': 'TIGIT', '7450': 'TXN',
     '5294': 'PI3', '9807': 'STK17B', '4000': 'LMLN', '4291': 'MLF1', 
@@ -38,7 +38,7 @@ df['target'] = df['Response'].apply(lambda x: 1 if 'PRCR' in str(x).upper() else
 X = df.drop(['Response', 'target'], axis=1).apply(pd.to_numeric, errors='coerce').fillna(0)
 y = df['target'].astype(int)
 
-# --- 2. MODELING WITH SMOTE ---
+# 2. MODELING WITH SMOTE 
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 rf = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
 
@@ -51,7 +51,7 @@ for train_index, test_index in skf.split(X, y):
     y_pred_total.extend(rf.predict(X_test))
     y_real.extend(y_test)
 
-# --- 3. CREATIVE VISUALIZATION (Multi-Panel) ---
+#3. CREATIVE VISUALIZATION (Multi-Panel)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
 
 # Panel 1: Confusion Matrix
