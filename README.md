@@ -1,4 +1,29 @@
 # Immunotherapy-response-prediction
-A system that cleans and organizes real genetic data, reads it, trains a model on predicting responders and non responders to immunotherapy with accuracy of pre and on treatment, along with explanation using graphs and heatmaps. 
-This repository contains 3 major files using the data set GSE91061 (Melanoma), each predicting outputs on respondance- with higher accuracy of non responders. bias is formed due to imbalanced data set. 
-This Bias was improved using SMOTE. The output includes predictive tables, heatmaps, graphs of top 10 genes responsible for the result, and volcano signature of the same. 
+Overview
+
+This project explores how machine learning can be used to understand and predict immunotherapy response using gene expression data.
+Using the GSE91061 dataset, I built a predictive model and further analyzed the biological significance of key genes contributing to the model’s decisions.
+Beyond model performance, the focus of this project is on extracting meaningful biological insights from high-dimensional data.
+
+Objectives
+
+Predict patient response to immunotherapy using gene expression profiles
+Identify top 10 predictive genes driving model decisions
+
+-Data Processing
+
+Loaded and cleaned gene expression dataset (GSE91061).
+Handled missing values and structured data for modeling. 
+
+-Model Development
+
+Trained a Random Forest Classifier.
+Evaluated using accuracy, precision, recall, and F1-score.
+Improved Bias using SMOTE. 
+
+-Biological Interpretation
+
+Extracted feature importance from the model.
+Identified top 10 genes such as:
+CXCL13
+TIGIT
