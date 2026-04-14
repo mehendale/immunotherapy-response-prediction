@@ -21,9 +21,24 @@ Trained a Random Forest Classifier.
 Evaluated using accuracy, precision, recall, and F1-score.
 Improved Bias using SMOTE. 
 
--Biological Interpretation
+Results 
 
-Extracted feature importance from the model.
-Identified top 10 genes such as:
-CXCL13
-TIGIT
+Top 10 genes 
+![Top Genes](top_genes.png)
+
+Top genes such as CXCL13 and TIGIT show strong influence on model predictions, suggesting their potential role in immune response.
+
+Gene expression Heatmap
+![Heatmap](gene_heatmap.png)
+
+The heatmap highlights variation in gene expression across samples, revealing distinct patterns between response groups.
+
+Volcano plot (Gene Signature)
+![Volcano Plot](volcano_signature.png)
+
+This plot shows differentially expressed genes, helping identify significant biomarkers associated with treatment response.
+
+Model performance and Biomarker Analysis 
+![Confusion Matrix](biomarkers_confusion.png)
+
+The model demonstrates reliable classification performance while identifying biologically relevant markers.
